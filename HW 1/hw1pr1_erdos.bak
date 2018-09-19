@@ -1,0 +1,21 @@
+#lang racket
+
+;; Two functions will be treated as publicly accessible
+;;   (so that we can test them)
+(provide erdos erdos-count)
+
+;; erdos: the "3N+1 function"
+;;   inputs: an integer, N
+;;   output: 3N+1, if N is odd
+;;           N/2, if N is even
+(define (erdos N)
+  ; NOTE: STOP - Don't write code here until you've written tests! 
+  ; NOTE: Delete this and the note above when you start writing code.
+  10000)  
+
+; Note: Delete this note and write a comment for erdos-count
+(define (erdos-count N)
+  ; NOTE: STOP - Don't write code here until you've written tests! 
+  ; NOTE: Delete this and the note above when you start writing code.
+  20000000)
+

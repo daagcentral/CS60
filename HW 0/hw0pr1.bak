@@ -1,0 +1,81 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Part C - Racket tutorial  ; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Step 2 is done for you:
+#lang slideshow
+
+; Step 4: "Definitions"
+
+(define c (circle 10)) ;this defines a variable
+(define r (rectangle 10 20)) ;defining a variable
+(define (square n) ; this is where a function is defined 
+  ; A semi-colon starts a line comment.
+  ; The expression below is the function body.
+  (filled-rectangle n n))
+
+
+; Step 5: "Local Binding"
+(define (four p) ;this function is defined to create four shapes together (two stacked on two)
+  (define two-p (hc-append p p)) ;defines the function that puts two shapes together
+  (vc-append two-p two-p)) ;vertically stacks the two groups of shapes
+(define (checker p1 p2)  ;makes a checker
+  (let ([p12 (hc-append p1 p2)]
+        [p21 (hc-append p2 p1)])
+    (vc-append p12 p21))) ; vertically stacks two 'square groups' to create a 2x2 checker
+
+(define (checkerboard p) ; usesfunctions and variables defined above to create a checkerboard of size p
+  (let* ([rp (colorize p "red")] ;sets rb to color red
+         [bp (colorize p "black")] ; sets bp to color black
+         [c (checker rp bp)] ; c is a checker with red and black alternating quares
+         [c4 (four c)]) 
+    (four c4)))
+; Step 6: "Functions are Values"
+(define (series mk) ; creates a series of mk shapes in incereasing sizes
+  (hc-append 4 (mk 5) (mk 10) (mk 20)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Part D - Reflect          ; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; You'll type this directly in Gradescope
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Part E - cboard function  ; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define (cboard n color1 color2) ;defining cboard as a function that takes 3 arguments
+   (let* ([c1 (colorize (square n) color1)] ;sets a square of size n to color1 
+          [c2 (colorize (square n) color2)] ;sets a square of size n to color2 
+          [cc (checker c1 c2)] ; cc is a checker with color1 and color2 alternating quares
+          [c4 (four cc)]) ;c4 would be a a stacked square of 4 cc's
+     (four c4))) ;this is what draws the final board by stacking 4 c4s together
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Part F - hcomb function   ; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define (niner p1 p2 p3)  ;makes a 3x3 checker
+  (let ([p123 (hc-append p1 p2 p3)]
+        [p312 (hc-append p3 p1 p2)]
+        [p231 (hc-append p2 p3 p1)])
+    (vc-append p123 p312 p231)))
+(define (nine p) ;this function is defined to create four shapes together (two stacked on two)
+  (define three-p (hc-append p p p)) ;defines the function that puts two shapes together
+  (vc-append three-p three-p three-p))
+
+(define (hcomb n color1 color2 color3) ; hcomb makes a board of alternate colored circles of multiple n
+  (let* ([c1 (colorize (filled-ellipse n n) color1)] ;sets a square of size n to color1 
+         [c2 (colorize (filled-ellipse n n) color2)]
+         [c3 (colorize (filled-ellipse n n) color3)]
+         [cc (niner c1 c2 c3)]
+         [c9 (nine cc)])
+  (nine c9))) ;this is what draws the final board by stacking 4 c4s together
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Part G - Screen shots!    ; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Don't forget to take screen shots of your work!
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Part H - Self-teaching    ; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; You'll type this directly in Gradescope
