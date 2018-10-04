@@ -1,0 +1,13 @@
+#lang racket
+(require rackunit)
+(provide remove-all)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; remove-all
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; remove-all
+;;  inputs: 
+;;  output: 
+(define (remove-all e L)
+  0) ;; empty until implemented!

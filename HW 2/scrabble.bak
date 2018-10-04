@@ -1,0 +1,65 @@
+#lang racket
+(require rackunit)
+(provide subbag?)
+
+;;inputs: two lists, S & B
+;;outputs: true if all elements in S appear in B regardless of order.
+;;         false if they dont
+(define (subbag? S B)
+  (cond [(empty? S) #t] ;;if the code runs through all of S, return true
+        [(equal? (member (first S) B) #f);;if first of S isnt member of B, automatically break recurrsion and return false
+                 #f]
+        [else (subbag? (remove (first S) S) (remove (first S) B))])); else, remove the first of S from S and B and continue recursing
+
+;; scrabble-tile-bag  
+;;   letter tile scores and counts from the game of Scrabble
+;;   the counts aren't needed they're obtained from
+;;   http://en.wikipedia.org/wiki/Image:Scrabble_tiles_en.jpg
+;;
+(define scrabble-tile-bag
+  '((#\a 1 9) (#\b 3 2) (#\c 3 2) (#\d 2 4) (#\e 1 12)
+   (#\f 4 2) (#\g 2 3) (#\h 4 2) (#\i 1 9) (#\j 8 1)
+   (#\k 5 1) (#\l 1 4) (#\m 3 2) (#\n 1 6) (#\o 1 8)
+   (#\p 3 2) (#\q 10 1)(#\r 1 6) (#\s 1 4) (#\t 1 6)
+   (#\u 1 4) (#\v 4 2) (#\w 4 2) (#\x 8 1) (#\y 4 2)
+   (#\z 10 1) (#\_ 0 2)) )
+
+;;helper 1: assoc
+;;input: a number/char/symbol, e, and a list of lists, A
+;;output: returns the sublist that starts with e
+(define (assoc e A)
+  (cond [(empty? A) #f]
+        [(equal? (first (first A)) e) (first A)]
+        [else (assoc e (rest A))]))
+
+;;helper 2: score letter
+;;input: a letter
+;;output: the score of that letter
+(define (score-letter k)
+  (second (assoc k scrabble-tile-bag)))
+
+;;helper
+(define (best-word rack WL)
+  0)
+         
+
+;provided tests
+(check-equal? (subbag? '()      '(s p a m s))   true)
+(check-equal? (subbag? '(s s)   '(s p a m s))   true)
+(check-equal? (subbag? '(s m)   '(s p a m s))   true)
+(check-equal? (subbag? '(a p)   '(s p a m s))   true)
+(check-equal? (subbag? '(a m a) '(s p a m s))   false)
+(check-equal? (subbag? '(a s)   '(s a))         true)
+
+(check-equal? (assoc 3   '((0 jan) (1 feb) (2 mar) (3 apr)))  '(3 apr))
+(check-equal? (assoc 5 '((1 jan) (2 feb) (3 mar) (4 apr)))  false)
+
+(check-equal? (score-letter '#\w) 4)
+
+
+;additional tests
+(check-equal? (subbag? '()      '())   true)
+(check-equal? (subbag? '(s p a m s)      '(s p a m s))   true)
+(check-equal? (subbag? '('(1 2) 2)      '(2 '(2 1)))   false)
+
+
